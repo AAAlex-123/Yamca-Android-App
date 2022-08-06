@@ -1,4 +1,4 @@
-package alexman.yamca.app;
+package alexman.yamca.server;
 
 import java.io.File;
 import java.io.FileInputStream;
