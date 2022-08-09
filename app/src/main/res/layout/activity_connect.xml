@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="alexman.yamca.app.ConnectActivity"
+        android:orientation="vertical"
+        android:textAlignment="center"
+        android:id="@+id/connect_layout">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:clickable="false"
+            android:textAlignment="inherit"
+            android:id="@+id/connect_header_layout"
+            android:background="#333333">
+
+        <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/yamca_logo"
+                android:id="@+id/connect_header_image"
+                android:layout_marginTop="15dp"
+                tools:ignore="ContentDescription" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/connect_header_text"
+                android:text="@string/app_name"
+                android:textAlignment="inherit"
+                android:layout_margin="15dp"
+                android:padding="5dp"
+                android:textSize="34sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="inherit"
+            android:id="@+id/connect_scroll"
+            android:background="#000"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="75dp"
+            android:paddingRight="75dp"
+            android:paddingTop="25dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:textAlignment="inherit"
+                android:id="@+id/connect_form_layout"
+                android:background="#1A1A1A"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:textAlignment="inherit"
+                    android:id="@+id/connect_ip_layout">
+
+                <TextView
+                        android:text="@string/connect_server_ip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/connect_ip_text"
+                        android:layout_margin="5dp"
+                        android:textAlignment="inherit"
+                        android:textSize="24sp"
+                        android:textColor="#FBB03B"
+                        android:padding="10dp" />
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textShortMessage"
+                        android:ems="10"
+                        android:id="@+id/connect_ip_input"
+                        tools:text="127.0.0.1"
+                        android:textAlignment="inherit"
+                        android:textSize="22sp"
+                        android:layout_margin="5dp"
+                        android:importantForAutofill="no"
+                        android:hint="@string/connect_ip_hint"
+                        android:background="#333333"
+                        android:textColor="@android:color/white"
+                        android:padding="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:textAlignment="inherit"
+                    android:id="@+id/connect_port_layout"
+                    android:layout_marginTop="15dp">
+
+                <TextView
+                        android:text="@string/connect_server_port"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/connect_port_text"
+                        android:layout_margin="5dp"
+                        android:textAlignment="inherit"
+                        android:textSize="24sp"
+                        android:textColor="#FBB03B"
+                        android:padding="10dp" />
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="10"
+                        android:id="@+id/connect_port_input"
+                        tools:text="65535"
+                        android:textAlignment="inherit"
+                        android:textSize="22sp"
+                        android:layout_margin="5dp"
+                        android:importantForAutofill="no"
+                        android:hint="@string/connect_port_hint"
+                        android:background="#333333"
+                        android:textColor="@android:color/white"
+                        android:padding="10dp" />
+            </LinearLayout>
+
+            <Button
+                    android:text="@string/connect_connect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/connect_submit_button"
+                    android:textAlignment="inherit"
+                    android:textSize="24sp"
+                    android:background="#FF0000"
+                    android:textAllCaps="false"
+                    android:backgroundTint="@android:color/white"
+                    android:backgroundTintMode="src_over"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="25dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

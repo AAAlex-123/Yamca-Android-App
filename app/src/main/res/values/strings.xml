@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Yamca-App</string>
+    <string name="app_name">Yamca</string>
+    <string name="connect_server_ip">Server IP</string>
+    <string name="connect_server_port">Server Port</string>
+    <string name="connect_connect">Connect</string>
+    <string name="connect_ip_hint">e.g. 127.0.0.1</string>
+    <string name="connect_port_hint">e.g. 65535</string>
 </resources>
