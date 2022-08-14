@@ -20,11 +20,11 @@
             android:background="#333333">
 
         <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 app:srcCompat="@drawable/yamca_logo"
                 android:id="@+id/connect_header_image"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 tools:ignore="ContentDescription" />
 
         <TextView
@@ -33,12 +33,9 @@
                 android:id="@+id/connect_header_text"
                 android:text="@string/app_name"
                 android:textAlignment="inherit"
-                android:layout_margin="15dp"
-                android:padding="5dp"
-                android:textSize="34sp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:textColor="@android:color/white" />
+                android:textSize="30sp"
+                android:textColor="@android:color/white"
+                android:layout_marginVertical="10dp" />
     </LinearLayout>
 
     <ScrollView
@@ -48,9 +45,7 @@
             android:id="@+id/connect_scroll"
             android:background="#000"
             android:layout_gravity="center_horizontal"
-            android:paddingLeft="75dp"
-            android:paddingRight="75dp"
-            android:paddingTop="25dp">
+            android:padding="30dp">
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -61,11 +56,8 @@
                 android:id="@+id/connect_form_layout"
                 android:background="#1A1A1A"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="35dp"
-                android:paddingRight="35dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp">
 
             <LinearLayout
                     android:orientation="vertical"
@@ -82,7 +74,7 @@
                         android:id="@+id/connect_ip_text"
                         android:layout_margin="5dp"
                         android:textAlignment="inherit"
-                        android:textSize="24sp"
+                        android:textSize="22sp"
                         android:textColor="#FBB03B"
                         android:padding="10dp" />
 
@@ -119,7 +111,7 @@
                         android:id="@+id/connect_port_text"
                         android:layout_margin="5dp"
                         android:textAlignment="inherit"
-                        android:textSize="24sp"
+                        android:textSize="22sp"
                         android:textColor="#FBB03B"
                         android:padding="10dp" />
 
@@ -146,11 +138,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/connect_submit_button"
                     android:textAlignment="inherit"
-                    android:textSize="24sp"
-                    android:background="#FF0000"
+                    android:textSize="22sp"
                     android:textAllCaps="false"
-                    android:backgroundTint="@android:color/white"
-                    android:backgroundTintMode="src_over"
                     android:layout_marginTop="35dp"
                     android:layout_marginBottom="25dp" />
         </LinearLayout>
