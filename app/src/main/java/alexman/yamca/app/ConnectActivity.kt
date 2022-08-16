@@ -1,11 +1,16 @@
 package alexman.yamca.app
 
 import alexman.yamca.R
+import alexman.yamca.eventdeliverysystem.dao.IProfileDAO
+import alexman.yamca.eventdeliverysystem.filesystem.ProfileFileSystem
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import java.nio.file.Files
+import java.util.*
 import java.util.regex.Pattern
 
 class ConnectActivity : AppCompatActivity() {
@@ -36,11 +41,18 @@ class ConnectActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             if (checkIpAndPort()) {
-                val intent = Intent(this, PickUserActivity::class.java)
-                intent.putExtra(PickUserActivity.ip, ipField.text.toString())
-                intent.putExtra(PickUserActivity.port, portField.text.toString())
 
-                startActivity(intent)
+                val ip: String = ipField.text.toString()
+                val port: Int = Integer.parseInt(portField.text.toString())
+                val profileDao: Optional<IProfileDAO> = getProfileDao()
+                if (!profileDao.isPresent) {
+                    Toast.makeText(this, "Unexpected error", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
+
+                UserSingleton.Holder.configure(ip, port, profileDao.get())
+
+                startActivity(Intent(this, PickUserActivity::class.java))
             }
         }
     }
@@ -59,5 +71,21 @@ class ConnectActivity : AppCompatActivity() {
         }
 
         return correctIp && correctPort
+    }
+
+    private fun getProfileDao(): Optional<IProfileDAO> {
+
+        val root = filesDir.resolve("users").toPath()
+
+        return try {
+            if (!Files.exists(root)) {
+                Files.createDirectory(root)
+            }
+
+            Optional.of(ProfileFileSystem(root))
+        } catch (e: FileSystemException) {
+            e.printStackTrace()
+            Optional.empty()
+        }
     }
 }
