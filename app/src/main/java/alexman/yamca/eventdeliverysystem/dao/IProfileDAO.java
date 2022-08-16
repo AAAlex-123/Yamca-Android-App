@@ -21,6 +21,7 @@ public interface IProfileDAO {
 	 * @param profileName the name of the new Profile
 	 *
 	 * @throws IOException if an I/O error occurs while creating the new Profile
+	 * @throws IllegalArgumentException if a Profile with the given name already exists
 	 */
 	void createNewProfile(String profileName) throws IOException;
 

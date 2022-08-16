@@ -2,6 +2,7 @@ package alexman.yamca.eventdeliverysystem.filesystem;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -62,6 +63,8 @@ public final class ProfileFileSystem implements IProfileDAO {
 		Path topicsDirectory = getTopicsDirectory(profileName);
 		try {
 			Files.createDirectory(topicsDirectory);
+		} catch (FileAlreadyExistsException e) {
+			throw new IllegalArgumentException("Profile " + profileName + " already exists");
 		} catch (IOException e) {
 			throw new FileSystemException(
 					"An IO error occurred when creating Profile " + profileName, e,
