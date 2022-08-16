@@ -1,9 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".app.TopicListActivity">
+        tools:context=".app.TopicListActivity"
+        android:orientation="vertical"
+        android:id="@+id/topiclist_layout">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/topiclist_header"
+            android:gravity="center"
+            android:background="#333333"
+            android:padding="10dp">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/topiclist_header_username_text"
+                android:layout_weight="1"
+                tools:text="Username"
+                android:textColor="#b7b7b7"
+                android:textSize="26sp"
+                android:layout_marginHorizontal="10dp"
+                android:textStyle="bold" />
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/topiclist_header_addTopic_button"
+                android:layout_weight="0"
+                android:background="#1A1A1A"
+                android:layout_marginHorizontal="10dp"
+                android:contentDescription="@string/topiclist_speakabletext_addtopic"
+                android:src="@drawable/addtopic"
+                android:minWidth="48dp"
+                android:minHeight="48dp" />
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/topiclist_header_search_button"
+                android:layout_weight="0"
+                android:background="#1A1A1A"
+                android:layout_marginHorizontal="10dp"
+                android:contentDescription="@string/topiclist_speakabletext_search"
+                android:src="@drawable/search"
+                android:minWidth="48dp"
+                android:minHeight="48dp" />
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/topiclist_header_preferences_button"
+                android:layout_weight="0"
+                android:background="#1A1A1A"
+                android:layout_marginHorizontal="10dp"
+                android:contentDescription="@string/topiclist_speakabletext_preferences"
+                android:src="@drawable/preferences"
+                android:minWidth="48dp"
+                android:minHeight="48dp" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/topiclist_content"
+            android:background="#000000"
+            tools:listitem="@layout/topic_preview"
+            android:paddingTop="5dp"
+            android:paddingHorizontal="10dp" />
+</LinearLayout>
