@@ -5,4 +5,8 @@
     <string name="connect_connect">Connect</string>
     <string name="connect_ip_hint">e.g. 127.0.0.1</string>
     <string name="connect_port_hint">e.g. 65535</string>
+    <string name="pickuser_username">User Name</string>
+    <string name="pickuser_username_hint">user1</string>
+    <string name="pickuser_login">Login</string>
+    <string name="pickuser_create">Create</string>
 </resources>
