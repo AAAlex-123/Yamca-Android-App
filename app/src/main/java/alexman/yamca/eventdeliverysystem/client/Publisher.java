@@ -3,9 +3,7 @@ package alexman.yamca.eventdeliverysystem.client;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,32 +30,13 @@ import alexman.yamca.eventdeliverysystem.util.LG;
 final class Publisher extends ClientNode {
 
 	/**
-	 * Constructs a Publisher.
+	 * Constructs a Publisher that must then be configured using one of the
+	 * {@code ClientNode#configure} methods.
 	 *
-	 * @param serverIP the IP of the default broker, interpreted as {@link
-	 *        InetAddress#getByName(String)}.
-	 * @param serverPort the port of the default broker
 	 * @param userStub the UserStub object that will be notified if a push fails
-	 *
-	 * @throws UnknownHostException if no IP address for the host could be found, or if a scope_id
-	 * 		was specified for a global IPv6 address while resolving the defaultServerIP.
 	 */
-	Publisher(String serverIP, int serverPort, UserStub userStub) throws UnknownHostException {
-		super(serverIP, serverPort, userStub);
-	}
-
-	/**
-	 * Constructs a Publisher.
-	 *
-	 * @param serverIP the IP of the default broker, interpreted as {@link
-	 *        InetAddress#getByAddress(byte[])}.
-	 * @param serverPort the port of the default broker
-	 * @param userStub the UserStub object that will be notified if a push fails
-	 *
-	 * @throws UnknownHostException if IP address is of illegal length
-	 */
-	Publisher(byte[] serverIP, int serverPort, UserStub userStub) throws UnknownHostException {
-		super(serverIP, serverPort, userStub);
+	Publisher(UserStub userStub) {
+		super(userStub);
 	}
 
 	/**

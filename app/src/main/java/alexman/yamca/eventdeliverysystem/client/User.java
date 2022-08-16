@@ -1,7 +1,7 @@
 package alexman.yamca.eventdeliverysystem.client;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
+import java.net.InetAddress;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -15,148 +15,88 @@ import alexman.yamca.eventdeliverysystem.datastructures.Post;
 import alexman.yamca.eventdeliverysystem.util.LG;
 
 /**
- * Facade for the different components that make up a User. Only objects of this class are needed to
- * interact with the client side of the event delivery system. The other public classes of this
- * package allow for more intricate interactions between the system and the surrounding
- * application.
- * <p>
- * A single object of this class needs to be created on start up, which can be then be reused with
- * the help of the {@code switchToExistingProfile} and {@code switchToNewProfile} methods.
+ * A User object acts both as an {@code IUserHolder}, an object which holds an {@code IUser}
+ * instance, and a {@code IUser}, an object which is the facade itself. References to a User object
+ * can be cast to either interface to achieve the desired encapsulation.
  *
  * @author Alex Mandelias
  * @author Dimitris Tsirmpas
+ *
+ * @see IUserHolder
+ * @see IUser
  */
-public final class User {
+public final class User implements IUser, IUserHolder {
 
 	private final CompositeListener listener = new CompositeListener();
 	private final UserStub userStub = new UserStub();
 
-	private final IProfileDAO profileDao;
+	private IProfileDAO profileDao = null;
 	private Profile currentProfile = null;
 
-	private final Publisher publisher;
-	private final Consumer consumer;
+	private final Publisher publisher = new Publisher(userStub);
+	private final Consumer consumer = new Consumer(userStub);
 
 	/**
-	 * Retrieves the user's data and saved posts, establishes the connection to the server, prepares
-	 * to receive and send posts and returns the new User object.
+	 * Creates a new empty User object and returns it. The User must first be configured using the
+	 * {@code configure} method and then have a Profile assigned to it using one of the appropriate
+	 * {@code switchToProfile} methods.
 	 *
-	 * @param serverIP the IP of the server
-	 * @param serverPort the port of the server
-	 * @param profileDao the Profile Data Access Object for this User
-	 * @param profileName the name of the existing profile
+	 * @return the new empty User
 	 *
-	 * @return the new User
-	 *
-	 * @throws IOException if an I/O error occurs while interacting with the IProfileDAO object
-	 * @throws ServerException if the connection to the server could not be established
-	 * @throws UnknownHostException if no IP address for the host could be found, or if a scope_id
-	 * 		was specified for a global IPv6 address while resolving the defaultServerIP.
+	 * @see IUserHolder#configure(String, int, IProfileDAO)
+	 * @see IUserHolder#switchToNewProfile(String)
+	 * @see IUserHolder#switchToExistingProfile(String)
 	 */
-	public static User loadExisting(String serverIP, int serverPort, IProfileDAO profileDao,
-			String profileName) throws IOException {
-		final User user = new User(serverIP, serverPort, profileDao);
-		user.switchToExistingProfile(profileName);
-		return user;
+	public static User empty() {
+		return new User();
 	}
 
-	/**
-	 * Creates a new User in the file system and returns the new User object.
-	 *
-	 * @param serverIP the IP of the server
-	 * @param serverPort the port of the server
-	 * @param profileDao the Profile Data Access Object for this User
-	 * @param name the name of the new Profile
-	 *
-	 * @return the new User
-	 *
-	 * @throws IOException if an I/O error occurs while interacting with the IProfileDAO object
-	 * @throws ServerException if the connection to the server could not be established
-	 * @throws UnknownHostException if no IP address for the host could be found, or if a scope_id
-	 * 		was specified for a global IPv6 address while resolving the defaultServerIP.
-	 */
-	public static User createNew(String serverIP, int serverPort, IProfileDAO profileDao,
-			String name) throws IOException {
-		final User user = new User(serverIP, serverPort, profileDao);
-		user.switchToNewProfile(name);
-		return user;
-	}
-
-	private User(String serverIP, int port, IProfileDAO profileDao) throws UnknownHostException {
-		this.profileDao = profileDao;
-
-		publisher = new Publisher(serverIP, port, userStub);
-		consumer = new Consumer(serverIP, port, userStub);
-
+	private User() {
 		addUserListener(new BasicListener());
 	}
 
-	/**
-	 * Returns the name of this User's current Profile.
-	 *
-	 * @return the current Profile's name
-	 */
-	public String getCurrentProfileName() {
-		return currentProfile.getName();
+	@Override
+	public IUser get() {
+		return this;
 	}
 
-	/**
-	 * Returns a Collection of this User's Topics.
-	 *
-	 * @return a Collection of this User's Topics
-	 */
-	public Collection<AbstractTopic> getAllTopics() {
-		return new HashSet<>(currentProfile.getTopics());
+	@Override
+	public void configure(InetAddress ip, int port, IProfileDAO profileDao) {
+		publisher.configure(ip, port);
+		consumer.configure(ip, port);
+		this.profileDao = profileDao;
 	}
 
-	/**
-	 * Returns the number of unread Posts for a Topic.
-	 *
-	 * @param topicName the name of the Topic
-	 *
-	 * @return the unread count for that Topic
-	 */
-	public int getUnreadCount(String topicName) {
-		return currentProfile.getUnread(topicName);
-	}
-
-	/**
-	 * Switches this User to manage a new Profile.
-	 *
-	 * @param profileName the name of the new Profile
-	 *
-	 * @throws ServerException if the connection to the server could not be established
-	 * @throws IOException if an I/O error occurs while interacting with the IProfileDAO object
-	 */
+	@Override
 	public void switchToNewProfile(String profileName) throws IOException {
 		currentProfile = new Profile(profileName);
 		profileDao.createNewProfile(profileName);
 		consumer.setTopics(new HashSet<>(currentProfile.getTopics()));
 	}
 
-	/**
-	 * Switches this User to manage an existing Profile.
-	 *
-	 * @param profileName the name of the existing Profile
-	 *
-	 * @throws ServerException if the connection to the server could not be established
-	 * @throws IOException if an I/O error occurs while interacting with the IProfileDAO object
-	 * @throws NoSuchElementException if no Profile with that name exists
-	 */
+	@Override
 	public void switchToExistingProfile(String profileName) throws IOException {
 		currentProfile = new Profile(profileName);
 		profileDao.loadProfile(profileName).forEach(currentProfile::addTopic);
 		consumer.setTopics(new HashSet<>(currentProfile.getTopics()));
 	}
 
-	/**
-	 * Sends a post to a specific topic on the server. This operation fires a user event with the
-	 * {@code MESSAGE_SENT} tag when it's completed. Every user that is subscribed to this Topic
-	 * receives a user event with the {@code MESSAGE_RECEIVED} tag.
-	 *
-	 * @param post the Post to post
-	 * @param topicName the name of the Topic to which to post
-	 */
+	@Override
+	public String getCurrentProfileName() {
+		return currentProfile.getName();
+	}
+
+	@Override
+	public Collection<AbstractTopic> getAllTopics() {
+		return new HashSet<>(currentProfile.getTopics());
+	}
+
+	@Override
+	public int getUnreadCount(String topicName) {
+		return currentProfile.getUnread(topicName);
+	}
+
+	@Override
 	public void post(Post post, String topicName) {
 		LG.sout("User#post(%s, %s)", post, topicName);
 		LG.in();
@@ -172,12 +112,7 @@ public final class User {
 		LG.out();
 	}
 
-	/**
-	 * Creates a topic on the server. This operation fires a user event with the {@code
-	 * TOPIC_CREATED} tag when it's completed.
-	 *
-	 * @param topicName the name of the Topic to create
-	 */
+	@Override
 	public void createTopic(String topicName) {
 		LG.sout("User#createTopic(%s)", topicName);
 		LG.in();
@@ -187,13 +122,7 @@ public final class User {
 		LG.out();
 	}
 
-	/**
-	 * Deletes a topic on the server. This operation fires a user event with the {@code
-	 * SERVER_TOPIC_DELETED} tag when it's completed. Every user that is subscribed to this Topic
-	 * receives a user event with the {@code TOPIC_DELETED} tag.
-	 *
-	 * @param topicName the name of the Topic to delete
-	 */
+	@Override
 	public void deleteTopic(String topicName) {
 		LG.sout("User#deleteTopic(%s)", topicName);
 		LG.in();
@@ -209,15 +138,7 @@ public final class User {
 		LG.out();
 	}
 
-	/**
-	 * Pulls all new Posts from a Topic, adds them to the Profile and saves them to the file system.
-	 * Posts that have already been pulled are not pulled again.
-	 *
-	 * @param topicName the name of the Topic from which to pull
-	 *
-	 * @throws IOException if an I/O error occurs while interacting with the IProfileDAO object
-	 * @throws NoSuchElementException if no Topic with the given name exists
-	 */
+	@Override
 	public void pull(String topicName) throws IOException, NoSuchElementException {
 		LG.sout("User#pull from Topic '%s'", topicName);
 		LG.in();
@@ -234,12 +155,7 @@ public final class User {
 		LG.out();
 	}
 
-	/**
-	 * Registers this user to listen for posts on a Topic. THis operation fires a user event with
-	 * the {@code TOPIC_LISTENED} tag.
-	 *
-	 * @param topicName the name of the Topic to listen for
-	 */
+	@Override
 	public void listenForNewTopic(String topicName) {
 		LG.sout("User#listenForNewTopic(%s)", topicName);
 		LG.in();
@@ -249,12 +165,7 @@ public final class User {
 		LG.out();
 	}
 
-	/**
-	 * Stops this user from listening for a Topic. This operation fires a user event with the {@code
-	 * TOPIC_LISTEN_STOPPED} tag.
-	 *
-	 * @param topicName the name of the Topic to stop listening for
-	 */
+	@Override
 	public void stopListeningForTopic(String topicName) {
 		LG.sout("User#stopListeningForTopic(%s)", topicName);
 		LG.in();
@@ -270,11 +181,7 @@ public final class User {
 		LG.out();
 	}
 
-	/**
-	 * Registers a listener to receive user events from this User.
-	 *
-	 * @param l the listener
-	 */
+	@Override
 	public void addUserListener(UserListener l) {
 		listener.addListener(l);
 	}

@@ -23,18 +23,27 @@ final class CIManager {
 
 	private final Map<String, ConnectionInfo> cache = new HashMap<>();
 
-	private final InetAddress defaultBrokerIP;
-	private final int defaultBrokerPort;
+	private InetAddress defaultBrokerIP = null;
+	private int defaultBrokerPort = -1;
 
 	/**
-	 * Constructs the CIManager given the ConnectionInfo to the default Broker.
+	 * Constructs the CIManager that must then be configured
 	 *
-	 * @param defaultBrokerIP the InetAddress of the default Broker to connect to
-	 * @param defaultBrokerPort the Port of the default Broker to connect to
+	 * @see #configure(InetAddress, int)
 	 */
-	CIManager(InetAddress defaultBrokerIP, int defaultBrokerPort) {
-		this.defaultBrokerIP = defaultBrokerIP;
-		this.defaultBrokerPort = defaultBrokerPort;
+	CIManager() {}
+
+	/**
+	 * Configures this CI Manager to use the given IP and port, which are both assumed to be valid.
+	 * No checks are made by this method, errors will arise when this CI Manager attempts to use
+	 * the connection information to connect to a Broker
+	 *
+	 * @param newDefaultBrokerIP the new IP of the default Broker
+	 * @param newDefaultBrokerPort the new port of the default Broker
+	 */
+	void configure(InetAddress newDefaultBrokerIP, int newDefaultBrokerPort) {
+		defaultBrokerIP = newDefaultBrokerIP;
+		defaultBrokerPort = newDefaultBrokerPort;
 	}
 
 	/**

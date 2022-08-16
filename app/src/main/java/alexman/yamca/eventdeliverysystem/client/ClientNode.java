@@ -68,44 +68,48 @@ abstract class ClientNode {
 	/**
 	 * Constructs a Client Node that will connect to a specific default broker.
 	 *
+	 * @param userStub the UserSub object that will be notified when data arrives
+	 */
+	protected ClientNode(UserStub userStub) {
+		topicCIManager = new CIManager();
+		this.userStub = userStub;
+	}
+
+	/**
+	 * Configures this Client Node to henceforth connect to a specific default broker.
+	 *
 	 * @param serverIP the IP of the default broker, interpreted by {@link
 	 *        InetAddress#getByName(String)}.
-	 * @param serverPort the port of the default broker
-	 * @param userStub the UserSub object that will be notified when data arrives
+	 * @param port the port of the default broker
 	 *
 	 * @throws UnknownHostException if no IP address for the host could be found, or if a scope_id
 	 * 		was specified for a global IPv6 address while resolving the defaultServerIP.
 	 */
-	protected ClientNode(String serverIP, int serverPort, UserStub userStub)
-			throws UnknownHostException {
-		this(InetAddress.getByName(serverIP), serverPort, userStub);
+	protected final void configure(String serverIP, int port) throws UnknownHostException {
+		configure(InetAddress.getByName(serverIP), port);
 	}
 
 	/**
-	 * Constructs a Client Node that will connect to a specific default broker.
+	 * Configures this Client Node to henceforth connect to a specific default broker.
 	 *
 	 * @param serverIP the IP of the default broker, interpreted by {@link
 	 *        InetAddress#getByAddress(byte[])}.
-	 * @param serverPort the port of the default broker
-	 * @param userStub the UserSub object that will be notified when data arrives
+	 * @param port the port of the default broker
 	 *
 	 * @throws UnknownHostException if IP address is of illegal length
 	 */
-	protected ClientNode(byte[] serverIP, int serverPort, UserStub userStub)
-			throws UnknownHostException {
-		this(InetAddress.getByAddress(serverIP), serverPort, userStub);
+	protected final void configure(byte[] serverIP, int port) throws UnknownHostException {
+		configure(InetAddress.getByAddress(serverIP), port);
 	}
 
 	/**
-	 * Constructs a Client Node that will connect to a specific default broker.
+	 * Configures this Client Node to henceforth connect to a specific default broker.
 	 *
-	 * @param ip the InetAddress of the default broker
+	 * @param serverIP the InetAddress of the default broker
 	 * @param port the port of the default broker
-	 * @param userStub the UserSub object that will be notified when data arrives
 	 */
-	protected ClientNode(InetAddress ip, int port, UserStub userStub) {
-		topicCIManager = new CIManager(ip, port);
-		this.userStub = userStub;
+	protected void configure(InetAddress serverIP, int port) {
+		topicCIManager.configure(serverIP, port);
 	}
 
 	/**

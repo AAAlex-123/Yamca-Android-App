@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -39,32 +38,13 @@ final class Consumer extends ClientNode implements AutoCloseable, Subscriber {
 	private final TopicManager topicManager = new TopicManager();
 
 	/**
-	 * Constructs a Consumer that will connect to a specific default broker.
+	 * Constructs a Consumer that will connect to a specific default broker and must then be
+	 * configured using one of the {@code ClientNode#configure} methods.
 	 *
-	 * @param serverIP the IP of the default broker, interpreted by {@link
-	 *        InetAddress#getByName(String)}.
-	 * @param serverPort the port of the default broker
 	 * @param userStub the UserSub object that will be notified when data arrives
-	 *
-	 * @throws UnknownHostException if no IP address for the host could be found, or if a scope_id
-	 * 		was specified for a global IPv6 address while resolving the defaultServerIP.
 	 */
-	Consumer(String serverIP, int serverPort, UserStub userStub) throws UnknownHostException {
-		super(serverIP, serverPort, userStub);
-	}
-
-	/**
-	 * Constructs a Consumer that will connect to a specific default broker.
-	 *
-	 * @param serverIP the IP of the default broker, interpreted by {@link
-	 *        InetAddress#getByAddress(byte[])}.
-	 * @param serverPort the port of the default broker
-	 * @param userStub the UserSub object that will be notified when data arrives
-	 *
-	 * @throws UnknownHostException if IP address is of illegal length
-	 */
-	Consumer(byte[] serverIP, int serverPort, UserStub userStub) throws UnknownHostException {
-		super(serverIP, serverPort, userStub);
+	Consumer(UserStub userStub) {
+		super(userStub);
 	}
 
 	@Override
