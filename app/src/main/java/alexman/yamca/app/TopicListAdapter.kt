@@ -3,7 +3,7 @@ package alexman.yamca.app
 import alexman.yamca.R
 import alexman.yamca.eventdeliverysystem.client.UserAdapter
 import alexman.yamca.eventdeliverysystem.client.UserEvent
-import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +47,7 @@ class TopicListAdapter(private val activity: TopicListActivity) :
                 item1 == item2
         })
 
-    class TopicPreviewViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class TopicPreviewViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val topicNameTextView: TextView =
             view.findViewById(R.id.topicpreview_topicname_text)
         private val unreadTextView: TextView =
@@ -59,7 +59,15 @@ class TopicListAdapter(private val activity: TopicListActivity) :
 
             val unreadCount = UserSingleton.getUnreadCount(topicName)
             unreadTextView.text = unreadCount.toString()
-            // holder.unreadLayout.visibility = if (unreadCount == 0) View.INVISIBLE else View.VISIBLE
+            unreadLayout.visibility = if (unreadCount == 0) View.INVISIBLE else View.VISIBLE
+
+            view.setOnClickListener {
+                activity.startActivity(
+                    Intent(activity, SingleTopicActivity::class.java).also {
+                        it.putExtra(SingleTopicActivity.extras_topicName, topicName)
+                    }
+                )
+            }
         }
     }
 

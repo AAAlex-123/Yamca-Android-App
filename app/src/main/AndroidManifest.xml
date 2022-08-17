@@ -16,6 +16,9 @@
             android:theme="@style/Theme.YamcaApp"
             tools:targetApi="31">
         <activity
+                android:name=".app.SingleTopicActivity"
+                android:exported="false" />
+        <activity
                 android:name=".app.TopicListActivity"
                 android:exported="false" />
         <activity
