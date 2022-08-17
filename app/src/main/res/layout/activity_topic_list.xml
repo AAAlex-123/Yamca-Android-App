@@ -73,5 +73,6 @@
             android:background="#000000"
             tools:listitem="@layout/topic_preview"
             android:paddingTop="5dp"
-            android:paddingHorizontal="10dp" />
+            android:paddingHorizontal="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 </LinearLayout>
