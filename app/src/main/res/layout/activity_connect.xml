@@ -14,7 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:clickable="false"
             android:textAlignment="inherit"
             android:id="@+id/connect_header_layout"
             android:background="#333333">
@@ -44,7 +43,6 @@
             android:textAlignment="inherit"
             android:id="@+id/connect_scroll"
             android:background="#000"
-            android:layout_gravity="center_horizontal"
             android:padding="30dp">
 
         <LinearLayout
@@ -55,7 +53,6 @@
                 android:textAlignment="inherit"
                 android:id="@+id/connect_form_layout"
                 android:background="#1A1A1A"
-                android:layout_gravity="center_horizontal"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp">
 

@@ -6,14 +6,14 @@
         android:layout_height="match_parent"
         tools:context=".app.PickUserActivity"
         android:orientation="vertical"
-        android:id="@+id/pickuser_layout">
+        android:id="@+id/pickuser_layout"
+        android:textAlignment="center">
 
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:clickable="false"
             android:textAlignment="inherit"
             android:id="@+id/pickuser_header_layout"
             android:background="#333333">
@@ -44,7 +44,6 @@
             android:textAlignment="inherit"
             android:id="@+id/pickuser_scroll"
             android:background="#000"
-            android:layout_gravity="center_horizontal"
             android:padding="30dp">
 
         <LinearLayout
@@ -55,7 +54,6 @@
                 android:textAlignment="inherit"
                 android:id="@+id/pickuser_form_layout"
                 android:background="#1A1A1A"
-                android:layout_gravity="center_horizontal"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp">
 
@@ -85,7 +83,7 @@
                         android:ems="10"
                         android:id="@+id/pickuser_username_input"
                         tools:text="username1"
-                        android:textAlignment="inherit"
+                        android:textAlignment="textStart"
                         android:textSize="22sp"
                         android:layout_margin="5dp"
                         android:importantForAutofill="no"
@@ -100,7 +98,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/pickuser_buttons_layout"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal">
 
                 <Button
                         android:text="@string/pickuser_login"
