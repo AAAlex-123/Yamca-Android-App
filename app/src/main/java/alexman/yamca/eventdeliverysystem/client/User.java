@@ -69,6 +69,7 @@ public final class User implements IUser, IUserHolder {
 
 	@Override
 	public void switchToNewProfile(String profileName) throws IOException {
+		consumer.close();
 		currentProfile = new Profile(profileName);
 		profileDao.createNewProfile(profileName);
 		consumer.setTopics(new HashSet<>(currentProfile.getTopics()));
@@ -76,6 +77,7 @@ public final class User implements IUser, IUserHolder {
 
 	@Override
 	public void switchToExistingProfile(String profileName) throws IOException {
+		consumer.close();
 		currentProfile = new Profile(profileName);
 		profileDao.loadProfile(profileName).forEach(currentProfile::addTopic);
 		consumer.setTopics(new HashSet<>(currentProfile.getTopics()));
