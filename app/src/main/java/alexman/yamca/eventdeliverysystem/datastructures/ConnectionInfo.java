@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * An immutable pair of <IPAddress, Port> representing a unique connection in the web.
@@ -25,7 +26,11 @@ public final class ConnectionInfo implements Serializable {
 	 * @return the ConnectionInfo
 	 */
 	public static ConnectionInfo forServerSocket(ServerSocket connection) {
-		return new ConnectionInfo(connection.getInetAddress(), connection.getLocalPort());
+		try {
+			return new ConnectionInfo(InetAddress.getLocalHost(), connection.getLocalPort());
+		} catch (UnknownHostException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
