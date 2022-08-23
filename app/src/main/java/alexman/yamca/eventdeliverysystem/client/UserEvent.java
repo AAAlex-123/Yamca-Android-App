@@ -75,6 +75,12 @@ public final class UserEvent {
 		return cause;
 	}
 
+	@Override
+	public String toString() {
+		return success ? String.format("%s - %s - %s", tag, topicName, success)
+		               : String.format("%s - %s - %s (%s)", tag, topicName, success, cause);
+	}
+
 	/**
 	 * Represents the type of the user event. Events with different tags cause different Listener
 	 * methods to be called.
