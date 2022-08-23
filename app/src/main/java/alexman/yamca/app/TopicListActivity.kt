@@ -43,7 +43,7 @@ class TopicListActivity : AppCompatActivity() {
         val preferencesButton: ImageButton = findViewById(R.id.topiclist_header_preferences_button)
 
         addTopicButton.setOnClickListener {
-            // startActivity(Intent(this, AddTopicActivity::class.java))
+            startActivity(Intent(this, CreateTopicActivity::class.java))
         }
         searchButton.setOnClickListener {
             // startActivity(Intent(this, SearchForTopicActivity::class.java))

@@ -13,4 +13,7 @@
     <string name="topiclist_speakabletext_addtopic">add topic</string>
     <string name="topiclist_speakabletext_search">search for topic</string>
     <string name="topiclist_speakabletext_preferences">preferences</string>
+    <string name="createtopic_topicname">Topic Name</string>
+    <string name="createtopic_topicname_hint">conversation1</string>
+    <string name="createtopic_create_button">Create</string>
 </resources>
