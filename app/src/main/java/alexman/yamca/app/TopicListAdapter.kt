@@ -1,8 +1,6 @@
 package alexman.yamca.app
 
 import alexman.yamca.R
-import alexman.yamca.eventdeliverysystem.client.UserAdapter
-import alexman.yamca.eventdeliverysystem.client.UserEvent
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -16,27 +14,10 @@ import androidx.recyclerview.widget.SortedListAdapterCallback
 class TopicListAdapter(private val activity: TopicListActivity) :
     RecyclerView.Adapter<TopicListAdapter.TopicPreviewViewHolder>() {
 
-    init {
-        UserSingleton.addUserListener(object : UserAdapter() {
-            override fun onTopicListened(e: UserEvent) {
-                activity.runOnUiThread { list.add(e.topicName) }
-            }
-
-            override fun onTopicListenStopped(e: UserEvent) {
-                activity.runOnUiThread { list.remove(e.topicName) }
-            }
-
-            override fun onTopicDeleted(e: UserEvent) {
-                activity.runOnUiThread { list.remove(e.topicName) }
-            }
-        })
-    }
-
-    val list = SortedList(
+    private val list = SortedList(
         String::class.java,
         object : SortedListAdapterCallback<String>(this) {
-            override fun compare(o1: String, o2: String): Int =
-                o1.compareTo(o2)
+            override fun compare(o1: String, o2: String): Int = o1.compareTo(o2)
 
             override fun areContentsTheSame(
                 oldItem: String,
@@ -46,6 +27,12 @@ class TopicListAdapter(private val activity: TopicListActivity) :
             override fun areItemsTheSame(item1: String, item2: String): Boolean =
                 item1 == item2
         })
+
+    fun setTopics(topics: Collection<String>) = list.replaceAll(topics)
+
+    fun removeTopic(topicName: String) {
+        list.remove(topicName)
+    }
 
     inner class TopicPreviewViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val topicNameTextView: TextView =
