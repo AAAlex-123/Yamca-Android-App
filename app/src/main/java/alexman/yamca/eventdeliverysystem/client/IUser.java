@@ -105,4 +105,13 @@ public interface IUser {
 	 * @param l the listener
 	 */
 	void addUserListener(UserListener l);
+
+	/**
+	 * Removes a registered listener which was receiving user events from this User.
+	 *
+	 * @param l the listener
+	 *
+	 * @return {@code true} if the listener was registered for this User
+	 */
+	boolean removeUserListener(UserListener l);
 }

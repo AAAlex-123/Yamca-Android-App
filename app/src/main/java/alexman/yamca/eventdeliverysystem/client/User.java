@@ -186,6 +186,11 @@ public final class User implements IUser, IUserHolder {
 		listener.addListener(l);
 	}
 
+	@Override
+	public boolean removeUserListener(UserListener l) {
+		return listener.removeListener(l);
+	}
+
 	private boolean userIsNotSubscribed(String topicName) {
 		return currentProfile.getTopics().stream()
 		                     .noneMatch(topic -> topic.getName().equals(topicName));
@@ -244,6 +249,10 @@ public final class User implements IUser, IUserHolder {
 
 		void addListener(UserListener l) {
 			listeners.add(l);
+		}
+
+		boolean removeListener(UserListener l) {
+			return listeners.remove(l);
 		}
 
 		@Override
