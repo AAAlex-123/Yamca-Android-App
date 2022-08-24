@@ -3,6 +3,7 @@ package alexman.yamca.app
 import alexman.yamca.R
 import alexman.yamca.eventdeliverysystem.dao.IProfileDAO
 import alexman.yamca.eventdeliverysystem.filesystem.ProfileFileSystem
+import alexman.yamca.eventdeliverysystem.util.LG
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -64,6 +65,7 @@ class PickUserActivity : AppCompatActivity() {
 
             Optional.of(ProfileFileSystem(root))
         } catch (e: FileSystemException) {
+            LG.exception(e)
             e.printStackTrace()
             Optional.empty()
         }
@@ -73,6 +75,7 @@ class PickUserActivity : AppCompatActivity() {
         try {
             fn()
         } catch (e: Throwable) {
+            LG.exception(e)
             Toast.makeText(
                 this,
                 e.message,

@@ -12,7 +12,7 @@ import java.net.InetAddress
 
 object UserSingleton : IUser by Holder.get() {
 
-    init {
+    fun init() {
         val tag = "LG"
 
         val outputStream = object : PrintStream(object : OutputStream() {
