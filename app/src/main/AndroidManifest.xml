@@ -16,13 +16,20 @@
             android:theme="@style/Theme.YamcaApp"
             tools:targetApi="31">
         <activity
+                android:name=".app.SearchForTopicActivity"
+                android:exported="false"
+                android:parentActivityName=".app.TopicListActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".app.TopicListActivity" />
+        </activity>
+        <activity
                 android:name=".app.CreateTopicActivity"
                 android:exported="false"
                 android:parentActivityName=".app.TopicListActivity">
-
-                <meta-data
-                        android:name="android.support.PARENT_ACTIVITY"
-                        android:value=".app.TopicListActivity"/>
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".app.TopicListActivity" />
         </activity>
         <activity
                 android:name=".app.SingleTopicActivity"

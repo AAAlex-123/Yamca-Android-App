@@ -16,4 +16,7 @@
     <string name="createtopic_topicname">Topic Name</string>
     <string name="createtopic_topicname_hint">conversation1</string>
     <string name="createtopic_create_button">Create</string>
+    <string name="searchfortopic_topicname">Topic Name</string>
+    <string name="searchfortopic_topicname_hint">conversation1</string>
+    <string name="searchfortopic_create_button">Search</string>
 </resources>

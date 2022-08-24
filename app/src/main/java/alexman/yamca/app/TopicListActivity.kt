@@ -46,7 +46,7 @@ class TopicListActivity : AppCompatActivity() {
             startActivity(Intent(this, CreateTopicActivity::class.java))
         }
         searchButton.setOnClickListener {
-            // startActivity(Intent(this, SearchForTopicActivity::class.java))
+            startActivity(Intent(this, SearchForTopicActivity::class.java))
         }
         preferencesButton.setOnClickListener {
             // startActivity(Intent(this, PreferencesActivity::class.java))

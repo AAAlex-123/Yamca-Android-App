@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".app.CreateTopicActivity"
+android:orientation="vertical"
+android:id="@+id/searchfortopic_layout"
+android:textAlignment="center">
+
+<androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#333333"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/searchfortopic_header"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:title="Create Topic"
+        app:titleTextColor="@android:color/white" />
+
+<ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/searchfortopic_scroll"
+        android:background="#000000"
+        android:padding="30dp"
+        android:textAlignment="inherit">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/searchfortopic_form_layout"
+            android:background="#1A1A1A"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:textAlignment="inherit">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/searchfortopic_topicname_layout"
+                android:gravity="center_horizontal"
+                android:textAlignment="inherit">
+
+            <TextView
+                    android:text="@string/searchfortopic_topicname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/searchfortopic_topicname_text"
+                    android:textColor="#FBB03B"
+                    android:textAlignment="inherit"
+                    android:textSize="22sp"
+                    android:padding="10dp"
+                    android:layout_margin="5dp" />
+
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textShortMessage"
+                    android:ems="10"
+                    android:id="@+id/searchfortopic_topicname_input"
+                    android:layout_margin="5dp"
+                    android:background="#333333"
+                    android:hint="@string/searchfortopic_topicname_hint"
+                    android:importantForAutofill="no"
+                    android:padding="10dp"
+                    android:textAlignment="textStart"
+                    android:textColor="@android:color/white"
+                    tools:text="conversation1"
+                    android:textSize="22sp" />
+        </LinearLayout>
+
+        <Button
+                android:text="@string/searchfortopic_create_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchfortopic_create_button"
+                android:textAlignment="inherit"
+                android:textAllCaps="false"
+                android:textSize="22sp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="15dp" />
+    </LinearLayout>
+</ScrollView>
+
+</LinearLayout>
