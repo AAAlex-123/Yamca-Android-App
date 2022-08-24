@@ -16,8 +16,8 @@ class CreateTopicActivity : AppCompatActivity() {
         override fun onTopicCreated(e: UserEvent) {
             val text: String =
                 when (e.success) {
-                    true -> "Topic \"" + e.topicName + "\" created"
-                    false -> "Could not create Topic \"" + e.topicName + "\""
+                    true -> "Created Topic \"${e.topicName}\""
+                    false -> "Could not create Topic \"${e.topicName}\""
                 }
 
             this@CreateTopicActivity.runOnUiThread {
