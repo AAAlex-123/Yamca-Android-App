@@ -69,7 +69,6 @@ public final class User implements IUser, IUserHolder {
 
 	@Override
 	public void switchToNewProfile(String profileName) throws IOException {
-		consumer.close();
 		currentProfile = new Profile(profileName);
 		profileDao.createNewProfile(profileName);
 		consumer.setTopics(new HashSet<>(currentProfile.getTopics()));
@@ -77,7 +76,6 @@ public final class User implements IUser, IUserHolder {
 
 	@Override
 	public void switchToExistingProfile(String profileName) throws IOException {
-		consumer.close();
 		currentProfile = new Profile(profileName);
 		profileDao.loadProfile(profileName).forEach(currentProfile::addTopic);
 		consumer.setTopics(new HashSet<>(currentProfile.getTopics()));
@@ -249,12 +247,16 @@ public final class User implements IUser, IUserHolder {
 
 		private final Set<UserListener> listeners = new HashSet<>();
 
-		void addListener(UserListener l) {
-			listeners.add(l);
+		private void addListener(UserListener l) {
+			synchronized (listeners) {
+				listeners.add(l);
+			}
 		}
 
-		boolean removeListener(UserListener l) {
-			return listeners.remove(l);
+		private boolean removeListener(UserListener l) {
+			synchronized (listeners) {
+				return listeners.remove(l);
+			}
 		}
 
 		@Override
@@ -399,7 +401,14 @@ public final class User implements IUser, IUserHolder {
 		}
 
 		private void removeTopicLocally(UserEvent e) {
-			currentProfile.removeTopic(e.topicName);
+			try {
+				currentProfile.removeTopic(e.topicName);
+			} catch (NoSuchElementException e1) {
+				// should only occur when changing profiles
+				// consumer closes and event to removeTopic is fired after profile is changed
+				LG.exception(e1);
+			}
+
 			try {
 				profileDao.deleteTopicFromCurrentProfile(e.topicName);
 			} catch (IOException e1) {
